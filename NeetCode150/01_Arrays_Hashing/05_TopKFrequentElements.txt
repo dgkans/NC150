@@ -1,0 +1,21 @@
+##O(n) tc
+class Solution: #nums i/p eg: ip=[1,1,2,3,4,4]
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        numbersMap = {}  #dict for storing key:ip nos with values: freqcount
+        freq = []   	#list for grouping similar freqCount nos.
+
+        for i in range (len(nums)+1):  #freq=len+1 as we have freq[0] ;0 based indexing in list->so we need freq[0] to freq[6] ie total 7 for below eg input
+            freq.append([])	#alt using list comprehension:freq = [[] for i in range(len(nums) + 1)]
+
+        
+        for n in nums:
+            numbersMap[n] = 1 + numbersMap.get(n, 0) #eg. numbersMap[1] = 2(1+1from get previous val of key=1)
+        for number, freqCount  in numbersMap.items():#populating freq[] with index,vals returned from dict. numbersMap
+            freq[freqCount].append(number) #eg. freq[2] = [1,4] 
+        
+        res = []  #[] to store common freq count nos
+        for i in range(len(freq)-1,0,-1): #opp to 0 to n-1 in asc.#from i=6 to i=1 since freq[0]is not useful
+            for n in freq[i]: #freq[2] = 1,4 =n vals and will be appended to res[]
+                res.append(n)
+                if len(res) == k:
+                    return res
